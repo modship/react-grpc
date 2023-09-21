@@ -6,6 +6,7 @@ import { Observable } from "rxjs";
 export class MyService {
 
     private readonly public_client: PublicServiceClient;
+
     constructor(url: string) {
         let transport = new GrpcWebFetchTransport({
             baseUrl: url
@@ -16,7 +17,7 @@ export class MyService {
 
     getStatus(): Promise<GetStatusResponse> {
         return new Promise((resolve, reject) => {
-            let r = this.public_client.getStatus(GetStatusRequest, {}).then((r: any) => {
+            this.public_client.getStatus(GetStatusRequest, {}).then((r: any) => {
                 resolve(r.response);
             }, (err: any) => {
                 console.error(err);
@@ -25,21 +26,15 @@ export class MyService {
         });
     }
 
-    newSlots(): Observable<NewSlotExecutionOutputsResponse> {
+    newSlots(emitterAddress: string): Observable<NewSlotExecutionOutputsResponse> {
         return new Observable<NewSlotExecutionOutputsResponse>((observer) => {
             let filters: NewSlotExecutionOutputsFilter[] = [];
             const emitterAddressFilter: ExecutionEventFilter = {
                 filter: {
                     oneofKind: "emitterAddress",
-                    emitterAddress: "AS12QPPvCWSYhqKvh6Fw21tSZSsghiRExNEaDgDYNcUzznYCtihgX"
+                    emitterAddress: emitterAddress
                 }
             };
-            // const callerAddressFilter: ExecutionEventFilter = {
-            //     filter: {
-            //         oneofKind: "callerAddress",
-            //         callerAddress: "exampleCallerAddress"
-            //     }
-            // };
 
             filters.push({
                 filter: {

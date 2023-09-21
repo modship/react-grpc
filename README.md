@@ -1,46 +1,37 @@
-# Getting Started with Create React App
+# Get Massa slot events with GRPC-react
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Configuration
 
-## Available Scripts
+update in `App.tsx` :
 
-In the project directory, you can run:
+- `GRPC_URL` with url of your massa node GRPC server
+- `EMITTER_ADDRESS` with the address of the emitter
 
-### `npm start`
+We need unidirectional streaming from the server to operate.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Massa node should be on this branch : <https://github.com/massalabs/massa/tree/grpc_web_stream>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Update the node config in `config.toml` :
 
-### `npm test`
+- grpc.grpc.public.accept_http1 = true
+- grpc.grpc.public.enable_cors = true
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Example
 
-### `npm run build`
+### With Autonomousprice massa example
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Deploy the SC <https://github.com/massalabs/massa-sc-examples/blob/main/autonomousprice/contracts/assembly/contracts/autonomousprice.ts> on massa blockchain
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    -> `'Contract deployed at address: AS12gWWfmXgT7HSZ8kc6syJbQA5EnDreggGRjwjSfYnR8jeL3tYU4'`
+2.
+    - Update `GRPC_URL`
+    - Update `EMITTER_ADDRESS` with sc address : AS12gWWfmXgT7HSZ8kc6syJbQA5EnDreggGRjwjSfYnR8jeL3tYU4
+3. Start this app
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    ```sh
+    npm run start
+    ```
 
-### `npm run eject`
+4. Start your web browser
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+    ![Alt text](image.png)
